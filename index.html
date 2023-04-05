@@ -1,0 +1,555 @@
+<!DOCTYPE HTML>
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+  <title>Tianheng Cheng (程天恒)</title>
+  
+  <meta name="author" content="thch">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="stylesheet" type="text/css" href="stylesheet.css">
+	<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌐</text></svg>">
+</head>
+
+<body>
+  <table style="width:100%;max-width:800px;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+    <tr style="padding:0px">
+      <td style="padding:0px">
+        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+          <tr style="padding:0px">
+            <td style="padding:2.5%;width:63%;vertical-align:middle">
+              <p style="text-align:center">
+                <name>Tianheng Cheng (程天恒)</name>
+              </p>
+              <p>I am a fourth-year Ph.D student at Huazhong University of Science and Technology (HUST), 
+                advised by <a href="https://www.cs.cmu.edu/~mengtial/">Prof. Wenyu Liu</a> and <a href="https://www.cs.cmu.edu/~mengtial/">Prof. Xinggang Wang</a>. 
+                I received my B.S. degree from <a href="https://www.tsinghua.edu.cn/publish/thu2018en/index.html">Tsinghua University</a> in 2017, advised by <a href="https://www.cs.tsinghua.edu.cn/publish/cs/3840/2018/20180530111113100000000/20180530111113100000000_.html">Yonghong Tian</a>.
+
+              <p>
+                At Google I've worked on <a href="https://www.google.com/glass/start/">Glass</a>,  <a href="https://ai.googleblog.com/2014/04/lens-blur-in-new-google-camera-app.html">Lens Blur</a>, <a href="https://ai.googleblog.com/2014/10/hdr-low-light-and-high-dynamic-range.html">HDR+</a>, <a href="https://blog.google/products/google-ar-vr/introducing-next-generation-jump/">Jump</a>, <a href="https://ai.googleblog.com/2017/10/portrait-mode-on-pixel-2-and-pixel-2-xl.html">Portrait Mode</a>, <a href="https://ai.googleblog.com/2020/12/portrait-light-enhancing-portrait.html">Portrait Light</a>, and <a href="https://www.matthewtancik.com/nerf">NeRF</a>. I did my PhD at <a href="http://www.eecs.berkeley.edu/">UC Berkeley</a>, where I was advised by <a href="http://www.cs.berkeley.edu/~malik/">Jitendra Malik</a> and funded by the <a href="http://www.nsfgrfp.org/">NSF GRFP</a>. I've received the <a href="https://www2.eecs.berkeley.edu/Students/Awards/15/">C.V. Ramamoorthy Distinguished Research Award</a> and the <a href="https://www.thecvf.com/?page_id=413#YRA">PAMI Young Researcher Award</a>.
+              </p>
+              <p style="text-align:center">
+                <a href="mailto:tianhengcheng@gmail.com">Email</a> &nbsp/&nbsp
+                <a href="data/TianhengCheng-CV.pdf">CV</a> &nbsp/&nbsp
+                <!-- <a href="data/JonBarron-bio.txt">Bio</a> &nbsp/&nbsp -->
+                <a href="https://scholar.google.com/citations?user=PH8rJHYAAAAJ&hl=zh-CN">Google Scholar</a> &nbsp/&nbsp
+                <!-- <a href="https://twitter.com/jon_barron">Twitter</a> &nbsp/&nbsp -->
+                <a href="https://github.com/wondervictor/">Github</a>
+              </p>
+            </td>
+            <td style="padding:2.5%;width:40%;max-width:40%">
+              <a href="images/JonBarron.jpg"><img style="width:100%;max-width:100%" alt="profile photo" src="images/JonBarron_circle.jpg" class="hoverZoomLink"></a>
+            </td>
+          </tr>
+        </tbody></table>
+        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+            <tr>
+            <td style="padding:20px;width:100%;vertical-align:middle">
+              <heading>Research</heading>
+              <p>
+                Selected publications are listed here. The complete list of publications can be seen from <a href="https://scholar.google.com/citations?user=PH8rJHYAAAAJ&hl=zh-CN">Google Scholar</a>.
+              </p>
+            </td>
+          </tr>
+        </tbody></table>
+        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+				
+    
+    <tr onmouseout="zipnerf_stop()" onmouseover="zipnerf_start()"  bgcolor="#ffffd0">
+      <td style="padding:20px;width:25%;vertical-align:middle">
+        <div class="one">
+          <div class="two" id='zipnerf_image'><video  width=100% height=100% muted autoplay loop>
+          <source src="images/zipnerf.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+          </video></div>
+          <img src='images/zipnerf.jpg' width="160">
+        </div>
+        <script type="text/javascript">
+          function zipnerf_start() {
+            document.getElementById('zipnerf_image').style.opacity = "1";
+          }
+
+          function zipnerf_stop() {
+            document.getElementById('zipnerf_image').style.opacity = "0";
+          }
+          zipnerf_stop()
+        </script>
+      </td>
+      <td style="padding:20px;width:75%;vertical-align:middle">
+        <a href="http://jonbarron.info/zipnerf">
+          <papertitle>Zip-NeRF: Anti-Aliased Grid-Based Neural Radiance Fields</papertitle>
+        </a>
+        <br>
+        <strong>Jonathan T. Barron</strong>,
+        <a href="https://bmild.github.io/">Ben Mildenhall</a>,
+        <a href="https://scholar.harvard.edu/dorverbin/home">Dor Verbin</a>,
+        <a href="https://pratulsrinivasan.github.io/">Pratul Srinivasan</a>,
+        <a href="https://phogzone.com/">Peter Hedman</a>
+        <br>
+        <em>arXiv</em>, 2023
+        <br>
+        <a href="http://jonbarron.info/zipnerf">project page</a>
+        /
+        <a href="https://www.youtube.com/watch?v=xrrhynRzC8k">video</a>
+        /
+        <a href="https://arxiv.org/abs/TODO">arXiv</a>
+        <p></p>
+        <p>
+        Combining mip-NeRF 360 and grid-based models like Instant NGP lets us reduce error rates by 8%&ndash;76% and accelerate training by 22x.
+        </p>
+      </td>
+    </tr>
+    
+<tr onmouseout="dreamfusion_stop()" onmouseover="dreamfusion_start()"  bgcolor="#ffffd0">
+  <td style="padding:20px;width:25%;vertical-align:middle">
+    <div class="one">
+      <div class="two" id='dreamfusion_image'><video  width=100% height=100% muted autoplay loop>
+      <source src="images/dreamfusion.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+      </video></div>
+      <img src='images/dreamfusion.jpg' width="160">
+    </div>
+    <script type="text/javascript">
+      function dreamfusion_start() {
+        document.getElementById('dreamfusion_image').style.opacity = "1";
+      }
+
+      function dreamfusion_stop() {
+        document.getElementById('dreamfusion_image').style.opacity = "0";
+      }
+      dreamfusion_stop()
+    </script>
+  </td>
+  <td style="padding:20px;width:75%;vertical-align:middle">
+    <a href="https://dreamfusion3d.github.io/">
+      <papertitle>DreamFusion: Text-to-3D using 2D Diffusion</papertitle>
+    </a>
+    <br>
+    <a href="https://cs.stanford.edu/~poole/">Ben Poole</a>,
+    <a href="https://www.ajayj.com/">Ajay Jain</a>,
+    <strong>Jonathan T. Barron</strong>,
+		<a href="https://bmild.github.io/">Ben Mildenhall</a>
+    <br>
+    <em>ICLR</em>, 2023 &nbsp <font color="red"><strong>(Oral Presentation, Outstanding Paper Award)</strong></font>
+    <br>
+    <a href="https://dreamfusion3d.github.io/">project page</a>
+    /
+    <a href="https://arxiv.org/abs/2209.14988">arXiv</a>
+    /
+    <a href="https://dreamfusion3d.github.io/gallery.html">gallery</a>
+    <p></p>
+    <p>
+    We optimize a NeRF from scratch using a pretrained text-to-image diffusion model to do text-to-3D generative modeling.
+    </p>
+  </td>
+</tr>
+		  
+          <tr onmouseout="mira_stop()" onmouseover="mira_start()">
+            <td style="padding:20px;width:25%;vertical-align:middle">
+              <div class="one">
+                <div class="two" id='mira_image'>
+                  <img src='images/mira_after.jpg' width="160"></div>
+                <img src='images/mira_before.jpg' width="160">
+              </div>
+              <script type="text/javascript">
+                function mira_start() {
+                  document.getElementById('mira_image').style.opacity = "1";
+                }
+
+                function mira_stop() {
+                  document.getElementById('mira_image').style.opacity = "0";
+                }
+                mira_stop()
+              </script>
+            </td>
+            <td style="padding:20px;width:75%;vertical-align:middle">
+              <a href="https://openreview.net/forum?id=AmPeAFzU3a4">
+                <papertitle>MIRA: Mental Imagery for Robotic Affordances</papertitle>
+              </a>
+              <br>
+              <a href="https://yenchenlin.me/">Lin Yen-Chen</a>, 
+              <a href="http://www.peteflorence.com/">Pete Florence</a>, 
+              <a href="https://andyzeng.github.io/">Andy Zeng</a>, <strong>Jonathan T. Barron</strong>, 
+              <a href="https://yilundu.github.io/">Yilun Du</a>,
+              <a href="https://people.csail.mit.edu/weichium/">Wei-Chiu Ma</a>,
+              <a href="https://anthonysimeonov.github.io/">Anthony Simeonov</a>,
+              <a href="https://meche.mit.edu/people/faculty/ALBERTOR@MIT.EDU">Alberto Rodriguez</a>,
+              <a href="http://web.mit.edu/phillipi/">Phillip Isola</a>
+              <br>
+              <em>CoRL</em>, 2022
+              <p></p>
+              <p>
+                NeRF lets us synthesize novel orthographic views that work well with pixel-wise algorithms for robotic manipulation.
+              </p>
+            </td>
+          </tr>		
+          
+          <tr onmouseout="samurai_stop()" onmouseover="samurai_start()">
+            <td style="padding:20px;width:25%;vertical-align:middle">
+              <div class="one">
+                <div class="two" id='samurai_image'>
+                  <img src='images/samurai_after.jpg' width="160"></div>
+                <img src='images/samurai_before.jpg' width="160">
+              </div>
+              <script type="text/javascript">
+                function samurai_start() {
+                  document.getElementById('samurai_image').style.opacity = "1";
+                }
+
+                function samurai_stop() {
+                  document.getElementById('samurai_image').style.opacity = "0";
+                }
+                samurai_stop()
+              </script>
+            </td>
+            <td style="padding:20px;width:75%;vertical-align:middle">
+              <a href="https://markboss.me/publication/2022-samurai/">
+                <papertitle>SAMURAI: Shape And Material from Unconstrained Real-world Arbitrary Image Collections</papertitle>
+              </a>
+              <br>
+              <a href="https://markboss.me">Mark Boss</a>, 
+              <a href="">Andreas Engelhardt</a>, 
+              <a href="https://abhishekkar.info/">Abhishek Kar</a>, 
+              <a href="http://people.csail.mit.edu/yzli/">Yuanzhen Li</a>, 
+              <a href="https://deqings.github.io/">Deqing Sun</a>, 
+              <strong>Jonathan T. Barron</strong>,
+              <a href="https://uni-tuebingen.de/en/faculties/faculty-of-science/departments/computer-science/lehrstuehle/computergrafik/computer-graphics/staff/prof-dr-ing-hendrik-lensch/">Hendrik P. A. Lensch</a>,
+              <a href="https://varunjampani.github.io">Varun Jampani</a>
+              <br>
+              <em>NeurIPS</em>, 2022
+              <br>
+              <a href="https://markboss.me/publication/2022-samurai/">project page</a> /
+              <a href="https://www.youtube.com/watch?v=LlYuGDjXp-8">video</a> /
+              <a href="https://arxiv.org/abs/2205.15768">arXiv</a>
+              <p></p>
+              <p>
+A joint optimization framework for estimating shape, BRDF, camera pose, and illumination from in-the-wild image collections.
+              </p>
+            </td>
+          </tr>		
+
+          <tr onmouseout="pnf_stop()" onmouseover="pnf_start()">
+          <td style="padding:20px;width:25%;vertical-align:middle">
+          <div class="one">
+          <div class="two" id='pnf_image'>
+            <img src='images/pnf_before.jpg' width="160"></div>
+          <img src='images/pnf_after.jpg' width="160">
+          </div>
+          <script type="text/javascript">
+          function pnf_start() {
+            document.getElementById('pnf_image').style.opacity = "1";
+          }
+
+          function pnf_stop() {
+            document.getElementById('pnf_image').style.opacity = "0";
+          }
+          pnf_stop()
+          </script>
+          </td>
+          <td style="padding:20px;width:75%;vertical-align:middle">
+          <a href="TODO">
+          <papertitle>Polynomial Neural Fields for Subband Decomposition</papertitle>
+          </a> <br>
+          <a href="https://www.guandaoyang.com/">Guandao Yang*</a>,
+          <a href="https://sagiebenaim.github.io/">Sagie Benaim*</a>,
+          <a href="https://varunjampani.github.io/">Varun Jampani</a>,
+          <a href="https://www.kylegenova.com/">Kyle Genova</a>,
+          <strong>Jonathan T. Barron</strong>,
+          <a href="https://www.cs.princeton.edu/~funk/">Thomas Funkhouser</a>,
+          <a href="http://home.bharathh.info/">Bharath Hariharan</a>,
+          <a href="https://sergebelongie.github.io/">Serge Belongie</a>
+          <br>
+          <em>NeurIPS</em>, 2022
+          <p>
+          Representing neural fields as a composition of manipulable and interpretable components lets you do things like reason about frequencies and scale.
+          </p>
+          </td>
+          </tr> 
+
+
+          <tr onmouseout="malle_stop()" onmouseover="malle_start()">
+            <td style="padding:20px;width:25%;vertical-align:middle">
+              <div class="one">
+                <div class="two" id='malle_image'>
+                  <img src='images/MalleConv_after.jpg' width="160"></div>
+                <img src='images/MalleConv_before.jpg' width="160">
+              </div>
+              <script type="text/javascript">
+                function malle_start() {
+                  document.getElementById('malle_image').style.opacity = "1";
+                }
+
+                function malle_stop() {
+                  document.getElementById('malle_image').style.opacity = "0";
+                }
+                malle_stop()
+              </script>
+            </td>
+            <td style="padding:20px;width:75%;vertical-align:middle">
+              <a href="https://yifanjiang.net/MalleConv.html">
+                <papertitle>Fast and High-quality Image Denoising via Malleable Convolutions</papertitle>
+              </a>
+              <br>
+              <a href="https://yifanjiang.net/">Yifan Jiang</a>,
+              <a href="https://bartwronski.com/">Bartlomiej Wronski</a>, 
+							<a href="https://bmild.github.io/">Ben Mildenhall</a>, <br>
+              <strong>Jonathan T. Barron</strong>,
+              <a href="https://spark.adobe.com/page/CAdrFMJ9QeI2y/">Zhangyang Wang</a>,
+              <a href="https://people.csail.mit.edu/tfxue/">Tianfan Xue</a>
+              <br>
+              <em>ECCV</em>, 2022
+              <br>
+              <a href="https://yifanjiang.net/MalleConv.html">project page</a>
+              /
+              <a href="https://arxiv.org/abs/2201.00392">arXiv</a>
+              <p></p>
+              <p>
+              We denoise images efficiently by predicting spatially-varying kernels at low resolution and using a fast fused op to jointly upsample and apply these kernels at full resolution.
+              </p>
+            </td>
+          </tr>
+					
+          <tr onmouseout="nerfsuper_stop()" onmouseover="nerfsuper_start()">
+            <td style="padding:20px;width:25%;vertical-align:middle">
+              <div class="one">
+                <div class="two" id='nerfsuper_image'><video  width=100% height=100% muted autoplay loop>
+                <source src="images/nerf_supervision.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+                </video></div>
+                <img src='images/nerf_supervision.jpg' width="160">
+              </div>
+              <script type="text/javascript">
+                function nerfsuper_start() {
+                  document.getElementById('nerfsuper_image').style.opacity = "1";
+                }
+
+                function nerfsuper_stop() {
+                  document.getElementById('nerfsuper_image').style.opacity = "0";
+                }
+                nerfsuper_stop()
+              </script>
+            </td>
+            <td style="padding:20px;width:75%;vertical-align:middle">
+							<a href="http://yenchenlin.me/nerf-supervision/">
+                <papertitle>NeRF-Supervision: Learning Dense Object Descriptors from Neural Radiance Fields</papertitle>
+              </a>
+              <br>
+              <a href="https://yenchenlin.me/">Lin Yen-Chen</a>, 
+              <a href="http://www.peteflorence.com/">Pete Florence</a>, 
+              <strong>Jonathan T. Barron</strong>,  <br>
+              <a href="https://scholar.google.com/citations?user=_BPdgV0AAAAJ&hl=en">Tsung-Yi Lin</a>, 
+              <a href="https://meche.mit.edu/people/faculty/ALBERTOR@MIT.EDU">Alberto Rodriguez</a>,
+              <a href="http://web.mit.edu/phillipi/">Phillip Isola</a>
+              <br>
+              <em>ICRA</em>, 2022  
+              <br>
+							<a href="http://yenchenlin.me/nerf-supervision/">project page</a> / 
+							<a href="https://arxiv.org/abs/2203.01913">arXiv</a> / 
+							<a href="https://www.youtube.com/watch?v=_zN-wVwPH1s">video</a> /
+							<a href="https://github.com/yenchenlin/nerf-supervision-public">code</a> / 
+							<a href="https://colab.research.google.com/drive/13ISri5KD2XeEtsFs25hmZtKhxoDywB5y?usp=sharing">colab</a>				
+              <p></p>
+              <p>NeRF works better than RGB-D cameras or multi-view stereo when learning object descriptors.</p>
+            </td>
+          </tr>
+
+			    <tr onmouseout="refnerf_stop()" onmouseover="refnerf_start()"  bgcolor="#ffffd0">
+			      <td style="padding:20px;width:25%;vertical-align:middle">
+			        <div class="one">
+			          <div class="two" id='refnerf_image'><video  width=100% height=100% muted autoplay loop>
+			          <source src="images/refnerf.mp4" type="video/mp4">
+			          Your browser does not support the video tag.
+			          </video></div>
+			          <img src='images/refnerf.jpg' width="160">
+			        </div>
+			        <script type="text/javascript">
+			          function refnerf_start() {
+			            document.getElementById('refnerf_image').style.opacity = "1";
+			          }
+
+			          function refnerf_stop() {
+			            document.getElementById('refnerf_image').style.opacity = "0";
+			          }
+			          refnerf_stop()
+			        </script>
+			      </td>
+			            <td style="padding:20px;width:75%;vertical-align:middle">
+			          <a href="https://dorverbin.github.io/refnerf/index.html">
+			            <papertitle>Ref-NeRF: Structured View-Dependent Appearance for Neural Radiance Fields</papertitle>
+			          </a>
+			          <br>
+			          <a href="https://scholar.harvard.edu/dorverbin/home">Dor Verbin</a>,
+			          <a href="https://phogzone.com/">Peter Hedman</a>,
+			          <a href="https://bmild.github.io/">Ben Mildenhall</a>, <br>
+			          <a href="Todd Zickler">Todd Zickler</a>,
+			          <strong>Jonathan T. Barron</strong>,
+			          <a href="https://pratulsrinivasan.github.io/">Pratul Srinivasan</a>
+			          <br>
+			    <em>CVPR</em>, 2022 &nbsp <font color="red"><strong>(Oral Presentation, Best Student Paper Honorable Mention)</strong></font>
+			          <br>
+			          <a href="https://dorverbin.github.io/refnerf/index.html">project page</a>
+			    /
+			          <a href="https://arxiv.org/abs/2112.03907">arXiv</a>
+			    /
+			          <a href="https://youtu.be/qrdRH9irAlk">video</a>
+			          <p></p>
+			          <p>Explicitly modeling reflections in NeRF produces realistic shiny surfaces and accurate surface normals, and lets you edit materials.</p>
+			        </td>
+			      </tr>
+						
+          <tr onmouseout="mip360_stop()" onmouseover="mip360_start()"  bgcolor="#ffffd0">
+            <td style="padding:20px;width:25%;vertical-align:middle">
+              <div class="one">
+                <div class="two" id='mip360_image'><video  width=100% height=100% muted autoplay loop>
+                <source src="images/mip360_sat.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+                </video></div>
+                <img src='images/mip360_sat.jpg' width="160">
+              </div>
+              <script type="text/javascript">
+                function mip360_start() {
+                  document.getElementById('mip360_image').style.opacity = "1";
+                }
+
+                function mip360_stop() {
+                  document.getElementById('mip360_image').style.opacity = "0";
+                }
+                mip360_stop()
+              </script>
+            </td>
+            <td style="padding:20px;width:75%;vertical-align:middle">
+              <a href="http://jonbarron.info/mipnerf360">
+                <papertitle>Mip-NeRF 360: Unbounded Anti-Aliased Neural Radiance Fields</papertitle>
+              </a>
+              <br>
+              <strong>Jonathan T. Barron</strong>,
+              <a href="https://bmild.github.io/">Ben Mildenhall</a>,
+              <a href="https://scholar.harvard.edu/dorverbin/home">Dor Verbin</a>,
+              <a href="https://pratulsrinivasan.github.io/">Pratul Srinivasan</a>,
+              <a href="https://phogzone.com/">Peter Hedman</a>
+              <br>
+							<em>CVPR</em>, 2022 &nbsp <font color="red"><strong>(Oral Presentation)</strong></font>
+              <br>
+              <a href="http://jonbarron.info/mipnerf360">project page</a>
+              /
+              <a href="https://arxiv.org/abs/2111.12077">arXiv</a>
+              /
+              <a href="https://youtu.be/zBSH-k9GbV4">video</a>
+              <p></p>
+              <p>mip-NeRF can be extended to produce realistic results on unbounded scenes.</p>
+            </td>
+          </tr> 
+
+          <tr onmouseout="rawnerf_stop()" onmouseover="rawnerf_start()"  bgcolor="#ffffd0">
+            <td style="padding:20px;width:25%;vertical-align:middle">
+              <div class="one">
+                <div class="two" id='rawnerf_image'><video  width=100% height=100% muted autoplay loop>
+                <source src="images/rawnerf.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+                </video></div>
+                <img src='images/rawnerf.jpg' width="160">
+              </div>
+              <script type="text/javascript">
+                function rawnerf_start() {
+                  document.getElementById('rawnerf_image').style.opacity = "1";
+                }
+
+                function rawnerf_stop() {
+                  document.getElementById('rawnerf_image').style.opacity = "0";
+                }
+                rawnerf_stop()
+              </script>
+            </td>
+            <td style="padding:20px;width:75%;vertical-align:middle">
+              <a href="https://bmild.github.io/rawnerf/index.html">
+                <papertitle>NeRF in the Dark: High Dynamic Range View Synthesis from Noisy Raw Images</papertitle>
+              </a>
+              <br>
+              <a href="https://bmild.github.io/">Ben Mildenhall</a>,
+              <a href="https://phogzone.com/">Peter Hedman</a>,
+              <a href="http://www.ricardomartinbrualla.com/">Ricardo Martin-Brualla</a>, <br>
+              <a href="https://pratulsrinivasan.github.io/">Pratul Srinivasan</a>,
+              <strong>Jonathan T. Barron</strong>
+              <br>
+							<em>CVPR</em>, 2022 &nbsp <font color="red"><strong>(Oral Presentation)</strong></font>
+              <br>
+              <a href="https://bmild.github.io/rawnerf/index.html">project page</a>
+        /
+              <a href="https://arxiv.org/abs/2111.13679">arXiv</a>
+        /
+              <a href="https://www.youtube.com/watch?v=JtBS4KBcKVc">video</a>
+              <p></p>
+              <p>
+								Properly training NeRF on raw camera data enables HDR view synthesis and bokeh, and outperforms multi-image denoising.</p>
+            </td>
+          </tr> 
+					
+
+        </tbody></table>
+
+				
+        <table width="100%" align="center" border="0" cellspacing="0" cellpadding="20"><tbody>
+          <tr>
+            <td>
+              <heading>Misc</heading>
+            </td>
+          </tr>
+        </tbody></table>
+        <table width="100%" align="center" border="0" cellpadding="20"><tbody>
+					
+          <tr>
+            <td style="padding:20px;width:25%;vertical-align:middle"><img src="images/cvf.jpg"></td>
+            <td width="75%" valign="center">
+              <a href="https://cvpr2022.thecvf.com/area-chairs">Area Chair, CVPR 2022</a>
+              <br>
+              <a href="http://cvpr2021.thecvf.com/area-chairs">Area Chair & Longuet-Higgins Award Committee Member, CVPR 2021</a>
+              <br>
+              <a href="http://cvpr2019.thecvf.com/area_chairs">Area Chair, CVPR 2019</a>
+              <br>
+              <a href="http://cvpr2018.thecvf.com/organizers/area_chairs">Area Chair, CVPR 2018</a>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:20px;width:25%;vertical-align:middle">
+              <img src="images/cs188.jpg" alt="cs188">
+            </td>
+            <td width="75%" valign="center">
+              <a href="http://inst.eecs.berkeley.edu/~cs188/sp11/announcements.html">Graduate Student Instructor, CS188 Spring 2011</a>
+              <br>
+              <a href="http://inst.eecs.berkeley.edu/~cs188/fa10/announcements.html">Graduate Student Instructor, CS188 Fall 2010</a>
+              <br>
+              <a href="http://aima.cs.berkeley.edu/">Figures, "Artificial Intelligence: A Modern Approach", 3rd Edition</a>
+            </td>
+          </tr>
+					
+
+          <tr>
+            <td align="center" style="padding:20px;width:25%;vertical-align:middle">
+							<heading>Basically <br> Blog Posts</heading>
+            </td>
+            <td width="75%" valign="middle">
+              <a href="https://arxiv.org/abs/2112.11687">Squareplus: A Softplus-Like Algebraic Rectifier</a>
+              <br>
+              <a href="https://arxiv.org/abs/2010.09714">A Convenient Generalization of Schlick's Bias and Gain Functions</a>
+              <br>
+              <a href="https://arxiv.org/abs/1704.07483">Continuously Differentiable Exponential Linear Units</a>
+            </td>
+          </tr>
+					
+					
+        </tbody></table>
+        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+          <tr>
+            <td style="padding:0px">
+              <br>
+              <p style="text-align:right;font-size:small;">
+                Last updated on March 09, 2022. Thanks to <a href="https://github.com/jonbarron/jonbarron_website">source code</a>. <strong>Do not</strong> scrape the HTML from this page itself, as it includes analytics tags that you do not want on your own website &mdash; use the github code instead. Also, consider using <a href="https://leonidk.com/">Leonid Keselman</a>'s <a href="https://github.com/leonidk/new_website">Jon Barron for this awesome website template. <a href="https://github.com/jonbarron/jonbarron_website">source code</a>. <strong>Do not</strong> scrape the HTML from this page itself, as it includes analytics tags that you do not want on your own website &mdash; use the github code instead. Also, consider using <a href="https://leonidk.com/">Leonid Keselman</a>'s <a href="https://github.com/leonidk/new_website">Jekyll fork</a> of this page.
+              </p>
+            </td>
+          </tr>
+        </tbody></table>
+      </td>
+    </tr>
+  </table>
+</body>
+
+</html>
