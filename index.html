@@ -1,555 +1,537 @@
-<!DOCTYPE HTML>
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html>
 
-  <title>Tianheng Cheng (程天恒)</title>
-  
-  <meta name="author" content="thch">
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="Real-Time Open-Vocabulary Detection">
+  <meta name="keywords" content="multi-modal object detetion">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  
-  <link rel="stylesheet" type="text/css" href="stylesheet.css">
-	<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌐</text></svg>">
+  <title>YOLO-World</title>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./images/smalllogo.png">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js"></script>
+  <script type="module" src="https://gradio.s3-us-west-2.amazonaws.com/3.27.0/gradio.js"></script>
 </head>
 
+<style>
+  .expandable-card .card-text-container {
+    max-height: 200px;
+    overflow-y: hidden;
+    position: relative;
+  }
+
+  .expandable-card.expanded .card-text-container {
+    max-height: none;
+  }
+
+  .expand-btn {
+    position: relative;
+    display: none;
+    background-color: rgba(255, 255, 255, 0.8);
+    /* margin-top: -20px; */
+    /* justify-content: center; */
+    color: #510c75;
+    border-color: transparent;
+  }
+
+  .expand-btn:hover {
+    background-color: rgba(200, 200, 200, 0.8);
+    text-decoration: none;
+    border-color: transparent;
+    color: #510c75;
+  }
+
+  .expand-btn:focus {
+    outline: none;
+    text-decoration: none;
+  }
+
+  .expandable-card:not(.expanded) .card-text-container:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 90px;
+    background: linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 1));
+  }
+
+  .expandable-card:not(.expanded) .expand-btn {
+    margin-top: -40px;
+  }
+
+  .card-body {
+    padding-bottom: 5px;
+  }
+
+  .vertical-flex-layout {
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .figure-img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .adjustable-font-size {
+    font-size: calc(0.5rem + 2vw);
+  }
+
+  .chat-history {
+    flex-grow: 1;
+    overflow-y: auto;
+    /* overflow-x: hidden; */
+    padding: 5px;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 10px;
+  }
+
+  #gradio pre {
+    background-color: transparent;
+  }
+</style>
+
 <body>
-  <table style="width:100%;max-width:800px;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
-    <tr style="padding:0px">
-      <td style="padding:0px">
-        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
-          <tr style="padding:0px">
-            <td style="padding:2.5%;width:63%;vertical-align:middle">
-              <p style="text-align:center">
-                <name>Tianheng Cheng (程天恒)</name>
-              </p>
-              <p>I am a fourth-year Ph.D student at Huazhong University of Science and Technology (HUST), 
-                advised by <a href="https://www.cs.cmu.edu/~mengtial/">Prof. Wenyu Liu</a> and <a href="https://www.cs.cmu.edu/~mengtial/">Prof. Xinggang Wang</a>. 
-                I received my B.S. degree from <a href="https://www.tsinghua.edu.cn/publish/thu2018en/index.html">Tsinghua University</a> in 2017, advised by <a href="https://www.cs.tsinghua.edu.cn/publish/cs/3840/2018/20180530111113100000000/20180530111113100000000_.html">Yonghong Tian</a>.
 
-              <p>
-                At Google I've worked on <a href="https://www.google.com/glass/start/">Glass</a>,  <a href="https://ai.googleblog.com/2014/04/lens-blur-in-new-google-camera-app.html">Lens Blur</a>, <a href="https://ai.googleblog.com/2014/10/hdr-low-light-and-high-dynamic-range.html">HDR+</a>, <a href="https://blog.google/products/google-ar-vr/introducing-next-generation-jump/">Jump</a>, <a href="https://ai.googleblog.com/2017/10/portrait-mode-on-pixel-2-and-pixel-2-xl.html">Portrait Mode</a>, <a href="https://ai.googleblog.com/2020/12/portrait-light-enhancing-portrait.html">Portrait Light</a>, and <a href="https://www.matthewtancik.com/nerf">NeRF</a>. I did my PhD at <a href="http://www.eecs.berkeley.edu/">UC Berkeley</a>, where I was advised by <a href="http://www.cs.berkeley.edu/~malik/">Jitendra Malik</a> and funded by the <a href="http://www.nsfgrfp.org/">NSF GRFP</a>. I've received the <a href="https://www2.eecs.berkeley.edu/Students/Awards/15/">C.V. Ramamoorthy Distinguished Research Award</a> and the <a href="https://www.thecvf.com/?page_id=413#YRA">PAMI Young Researcher Award</a>.
-              </p>
-              <p style="text-align:center">
-                <a href="mailto:tianhengcheng@gmail.com">Email</a> &nbsp/&nbsp
-                <a href="data/TianhengCheng-CV.pdf">CV</a> &nbsp/&nbsp
-                <!-- <a href="data/JonBarron-bio.txt">Bio</a> &nbsp/&nbsp -->
-                <a href="https://scholar.google.com/citations?user=PH8rJHYAAAAJ&hl=zh-CN">Google Scholar</a> &nbsp/&nbsp
-                <!-- <a href="https://twitter.com/jon_barron">Twitter</a> &nbsp/&nbsp -->
-                <a href="https://github.com/wondervictor/">Github</a>
-              </p>
-            </td>
-            <td style="padding:2.5%;width:40%;max-width:40%">
-              <a href="images/JonBarron.jpg"><img style="width:100%;max-width:100%" alt="profile photo" src="images/JonBarron_circle.jpg" class="hoverZoomLink"></a>
-            </td>
-          </tr>
-        </tbody></table>
-        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
-            <tr>
-            <td style="padding:20px;width:100%;vertical-align:middle">
-              <heading>Research</heading>
-              <p>
-                Selected publications are listed here. The complete list of publications can be seen from <a href="https://scholar.google.com/citations?user=PH8rJHYAAAAJ&hl=zh-CN">Google Scholar</a>.
-              </p>
-            </td>
-          </tr>
-        </tbody></table>
-        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
-				
-    
-    <tr onmouseout="zipnerf_stop()" onmouseover="zipnerf_start()"  bgcolor="#ffffd0">
-      <td style="padding:20px;width:25%;vertical-align:middle">
-        <div class="one">
-          <div class="two" id='zipnerf_image'><video  width=100% height=100% muted autoplay loop>
-          <source src="images/zipnerf.mp4" type="video/mp4">
-          Your browser does not support the video tag.
-          </video></div>
-          <img src='images/zipnerf.jpg' width="160">
-        </div>
-        <script type="text/javascript">
-          function zipnerf_start() {
-            document.getElementById('zipnerf_image').style.opacity = "1";
-          }
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <img width=500px src="./images/banner.png">
+            <br><br>
+            <!-- <h1 class="title is-1 publication-title">YOLO-World👀</h1> -->
+            <h1 class="title is-2 publication-title">Real-Time Open-Vocabulary Object Detection</h1>
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">
+                <a href="" style="color:#008AD7;font-weight:normal;">Tianheng Cheng<sup>2,3,*</sup></a>&nbsp,
+              </span>
+              <span class="author-block">
+                <a href="https://linsong.info" style="color:#008AD7;font-weight:normal;">Lin
+                  Song<sup>1,*,&#128231;</sup></a>&nbsp,
+              </span>
+              <span class="author-block">
+                <a href="https://geyixiao.com" style="color:#008AD7;font-weight:normal;">Yixiao Ge<sup>1,2,⭐</sup></a>&nbsp,
+              </span>
+              <span class="author-block">
+                <a href="https://eic.hust.edu.cn/professor/liuwenyu" style="color:#008AD7;font-weight:normal;">Wenyu
+                  Liu<sup>3</sup></a>&nbsp,
+              </span>
+              <span class="author-block">
+                <a href="https://xwcv.github.io/" style="color:#008AD7;font-weight:normal;">Xinggang
+                  Wang<sup>3,&#128231;</sup></a>&nbsp,
+              </span>
+              <span class="author-block">
+                <a href="https://scholar.google.com/citations?user=4oXBp9UAAAAJ&hl=zh-CN"
+                  style="color:#008AD7;font-weight:normal;">Ying Shan<sup>1,2</sup></a>
+              </span>
+            </div>
 
-          function zipnerf_stop() {
-            document.getElementById('zipnerf_image').style.opacity = "0";
-          }
-          zipnerf_stop()
-        </script>
-      </td>
-      <td style="padding:20px;width:75%;vertical-align:middle">
-        <a href="http://jonbarron.info/zipnerf">
-          <papertitle>Zip-NeRF: Anti-Aliased Grid-Based Neural Radiance Fields</papertitle>
-        </a>
-        <br>
-        <strong>Jonathan T. Barron</strong>,
-        <a href="https://bmild.github.io/">Ben Mildenhall</a>,
-        <a href="https://scholar.harvard.edu/dorverbin/home">Dor Verbin</a>,
-        <a href="https://pratulsrinivasan.github.io/">Pratul Srinivasan</a>,
-        <a href="https://phogzone.com/">Peter Hedman</a>
-        <br>
-        <em>arXiv</em>, 2023
-        <br>
-        <a href="http://jonbarron.info/zipnerf">project page</a>
-        /
-        <a href="https://www.youtube.com/watch?v=xrrhynRzC8k">video</a>
-        /
-        <a href="https://arxiv.org/abs/TODO">arXiv</a>
-        <p></p>
-        <p>
-        Combining mip-NeRF 360 and grid-based models like Instant NGP lets us reduce error rates by 8%&ndash;76% and accelerate training by 22x.
-        </p>
-      </td>
-    </tr>
-    
-<tr onmouseout="dreamfusion_stop()" onmouseover="dreamfusion_start()"  bgcolor="#ffffd0">
-  <td style="padding:20px;width:25%;vertical-align:middle">
-    <div class="one">
-      <div class="two" id='dreamfusion_image'><video  width=100% height=100% muted autoplay loop>
-      <source src="images/dreamfusion.mp4" type="video/mp4">
-      Your browser does not support the video tag.
-      </video></div>
-      <img src='images/dreamfusion.jpg' width="160">
-    </div>
-    <script type="text/javascript">
-      function dreamfusion_start() {
-        document.getElementById('dreamfusion_image').style.opacity = "1";
-      }
+            <div class="is-size-5 publication-authors">
+              <span class="author-block"><b style="color:#008AD7; font-weight:normal"><sup>1</sup></b> Tencent AI
+                Lab</span>,
+              <span class="author-block"><b style="color:#008AD7; font-weight:normal"><sup>2</sup></b> ARC Lab, Tencent
+                PCG</span>,
+              <span class="author-block"><b style="color:#008AD7; font-weight:normal"><sup>3</sup></b> Huazhong
+                University of Science and Technology</span>
+            </div>
 
-      function dreamfusion_stop() {
-        document.getElementById('dreamfusion_image').style.opacity = "0";
-      }
-      dreamfusion_stop()
-    </script>
-  </td>
-  <td style="padding:20px;width:75%;vertical-align:middle">
-    <a href="https://dreamfusion3d.github.io/">
-      <papertitle>DreamFusion: Text-to-3D using 2D Diffusion</papertitle>
-    </a>
-    <br>
-    <a href="https://cs.stanford.edu/~poole/">Ben Poole</a>,
-    <a href="https://www.ajayj.com/">Ajay Jain</a>,
-    <strong>Jonathan T. Barron</strong>,
-		<a href="https://bmild.github.io/">Ben Mildenhall</a>
-    <br>
-    <em>ICLR</em>, 2023 &nbsp <font color="red"><strong>(Oral Presentation, Outstanding Paper Award)</strong></font>
-    <br>
-    <a href="https://dreamfusion3d.github.io/">project page</a>
-    /
-    <a href="https://arxiv.org/abs/2209.14988">arXiv</a>
-    /
-    <a href="https://dreamfusion3d.github.io/gallery.html">gallery</a>
-    <p></p>
-    <p>
-    We optimize a NeRF from scratch using a pretrained text-to-image diffusion model to do text-to-3D generative modeling.
-    </p>
-  </td>
-</tr>
-		  
-          <tr onmouseout="mira_stop()" onmouseover="mira_start()">
-            <td style="padding:20px;width:25%;vertical-align:middle">
-              <div class="one">
-                <div class="two" id='mira_image'>
-                  <img src='images/mira_after.jpg' width="160"></div>
-                <img src='images/mira_before.jpg' width="160">
+            <div class="is-size-5 publication-authors">
+              <span class="author-block"><sup>*</sup><b>Equal Contribution</b></span>&nbsp;&nbsp
+              <span class="author-block"><sup>&#128231</sup><b> Corresponding Author</b></span>&nbsp;&nbsp
+              <span class="author-block"><sup>⭐</sup><b> Project Lead</b></span>
+            </div>
+
+            <div class="column has-text-centered">
+              <div class="publication-links">
+                <span class="link-block">
+                  <a href="https://arxiv.org/abs/" target="_blank"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                    </span>
+                    <span>arXiv</span>
+                  </a>
+                </span>
+                <span class="link-block">
+                  <a href="https://github.com/AILAB-CVC/YOLO-World" target="_blank"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fab fa-github"></i>
+                    </span>
+                    <span>Code</span>
+                  </a>
+                </span>
+                <span class="link-block">
+                  <a href="" target="_blank" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="far fa-images"></i>
+                    </span>
+                    <span>Demo</span>
+                  </a>
+                </span>
+                <span class="link-block">
+                  <a href="" target="_blank" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fas fa-share-square"></i>
+                    </span>
+                    <span>HuggingFace</span>
+                  </a>
+                </span>
+
               </div>
-              <script type="text/javascript">
-                function mira_start() {
-                  document.getElementById('mira_image').style.opacity = "1";
-                }
-
-                function mira_stop() {
-                  document.getElementById('mira_image').style.opacity = "0";
-                }
-                mira_stop()
-              </script>
-            </td>
-            <td style="padding:20px;width:75%;vertical-align:middle">
-              <a href="https://openreview.net/forum?id=AmPeAFzU3a4">
-                <papertitle>MIRA: Mental Imagery for Robotic Affordances</papertitle>
-              </a>
-              <br>
-              <a href="https://yenchenlin.me/">Lin Yen-Chen</a>, 
-              <a href="http://www.peteflorence.com/">Pete Florence</a>, 
-              <a href="https://andyzeng.github.io/">Andy Zeng</a>, <strong>Jonathan T. Barron</strong>, 
-              <a href="https://yilundu.github.io/">Yilun Du</a>,
-              <a href="https://people.csail.mit.edu/weichium/">Wei-Chiu Ma</a>,
-              <a href="https://anthonysimeonov.github.io/">Anthony Simeonov</a>,
-              <a href="https://meche.mit.edu/people/faculty/ALBERTOR@MIT.EDU">Alberto Rodriguez</a>,
-              <a href="http://web.mit.edu/phillipi/">Phillip Isola</a>
-              <br>
-              <em>CoRL</em>, 2022
-              <p></p>
-              <p>
-                NeRF lets us synthesize novel orthographic views that work well with pixel-wise algorithms for robotic manipulation.
-              </p>
-            </td>
-          </tr>		
-          
-          <tr onmouseout="samurai_stop()" onmouseover="samurai_start()">
-            <td style="padding:20px;width:25%;vertical-align:middle">
-              <div class="one">
-                <div class="two" id='samurai_image'>
-                  <img src='images/samurai_after.jpg' width="160"></div>
-                <img src='images/samurai_before.jpg' width="160">
-              </div>
-              <script type="text/javascript">
-                function samurai_start() {
-                  document.getElementById('samurai_image').style.opacity = "1";
-                }
-
-                function samurai_stop() {
-                  document.getElementById('samurai_image').style.opacity = "0";
-                }
-                samurai_stop()
-              </script>
-            </td>
-            <td style="padding:20px;width:75%;vertical-align:middle">
-              <a href="https://markboss.me/publication/2022-samurai/">
-                <papertitle>SAMURAI: Shape And Material from Unconstrained Real-world Arbitrary Image Collections</papertitle>
-              </a>
-              <br>
-              <a href="https://markboss.me">Mark Boss</a>, 
-              <a href="">Andreas Engelhardt</a>, 
-              <a href="https://abhishekkar.info/">Abhishek Kar</a>, 
-              <a href="http://people.csail.mit.edu/yzli/">Yuanzhen Li</a>, 
-              <a href="https://deqings.github.io/">Deqing Sun</a>, 
-              <strong>Jonathan T. Barron</strong>,
-              <a href="https://uni-tuebingen.de/en/faculties/faculty-of-science/departments/computer-science/lehrstuehle/computergrafik/computer-graphics/staff/prof-dr-ing-hendrik-lensch/">Hendrik P. A. Lensch</a>,
-              <a href="https://varunjampani.github.io">Varun Jampani</a>
-              <br>
-              <em>NeurIPS</em>, 2022
-              <br>
-              <a href="https://markboss.me/publication/2022-samurai/">project page</a> /
-              <a href="https://www.youtube.com/watch?v=LlYuGDjXp-8">video</a> /
-              <a href="https://arxiv.org/abs/2205.15768">arXiv</a>
-              <p></p>
-              <p>
-A joint optimization framework for estimating shape, BRDF, camera pose, and illumination from in-the-wild image collections.
-              </p>
-            </td>
-          </tr>		
-
-          <tr onmouseout="pnf_stop()" onmouseover="pnf_start()">
-          <td style="padding:20px;width:25%;vertical-align:middle">
-          <div class="one">
-          <div class="two" id='pnf_image'>
-            <img src='images/pnf_before.jpg' width="160"></div>
-          <img src='images/pnf_after.jpg' width="160">
+            </div>
           </div>
-          <script type="text/javascript">
-          function pnf_start() {
-            document.getElementById('pnf_image').style.opacity = "1";
-          }
+        </div>
+      </div>
+    </div>
+  </section>
 
-          function pnf_stop() {
-            document.getElementById('pnf_image').style.opacity = "0";
-          }
-          pnf_stop()
-          </script>
-          </td>
-          <td style="padding:20px;width:75%;vertical-align:middle">
-          <a href="TODO">
-          <papertitle>Polynomial Neural Fields for Subband Decomposition</papertitle>
-          </a> <br>
-          <a href="https://www.guandaoyang.com/">Guandao Yang*</a>,
-          <a href="https://sagiebenaim.github.io/">Sagie Benaim*</a>,
-          <a href="https://varunjampani.github.io/">Varun Jampani</a>,
-          <a href="https://www.kylegenova.com/">Kyle Genova</a>,
-          <strong>Jonathan T. Barron</strong>,
-          <a href="https://www.cs.princeton.edu/~funk/">Thomas Funkhouser</a>,
-          <a href="http://home.bharathh.info/">Bharath Hariharan</a>,
-          <a href="https://sergebelongie.github.io/">Serge Belongie</a>
-          <br>
-          <em>NeurIPS</em>, 2022
+  <section class="hero teaser">
+    <div class="container is-max-desktop">
+      <div class="hero-body">
+        <font size=4>
+          <table width="77%" align="center" border="0" cellspacing="0" cellpadding="20">
+            <tbody>
+              <tr>
+                <td>
+                  <heading>🔥<b><span style="color: #ff3860">What's New</span></b></heading>
+                  <div style="height: 150px; overflow: auto;">
+                    <ul>
+                      <li>
+                        [2024.1.30] The <a href=""><b>technical report</b></a>, and <a href=""><b>code</b></a> of
+                          <b>YOLO-World</b> are available now!
+                    </ul>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </font>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="section" style="background-color:#efeff081">
+    <div class="container is-max-desktop">
+      <!-- Abstract. -->
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-six-fifths">
+          <h2 class="title is-3">📖 Abstract</h2>
+          <div class="content has-text-justified">
+            <p>
+              The You Only Look Once (YOLO) series of detectors have established themselves as efficient and practical
+              tools.
+              However, their reliance on predefined and trained object categories limits their applicability in open
+              scenarios.
+              Addressing this limitation, we introduce YOLO-World, an innovative approach that enhances YOLO with
+              open-vocabulary
+              detection capabilities through vision-language modeling and pre-training on large-scale datasets.
+              Specifically, we propose a new Re-parameterizable Vision-Language Path Aggregation Network (RepVL-PAN) and
+              region-text
+              contrastive loss to facilitate the interaction between visual and linguistic information.
+              Our method excels in detecting a wide range of objects in a zero-shot manner with high efficiency.
+              On the challenging LVIS dataset, YOLO-World achieves 35.4 AP with 52.0 FPS on V100,
+              which outperforms many state-of-the-art methods in terms of both accuracy and speed.
+              Furthermore, the fine-tuned YOLO-World achieves remarkable performance on several downstream tasks,
+              including object detection and open-vocabulary instance segmentation.
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="col                                                                                                                                                     umns is-centered has-text-centered">
+      <div class="column is-six-fifths">
+        <h2 class="title is-3"><img src="./images/smalllogo.png" width="60px"> YOLO-World</h2>
+        <div class="container is-max-desktop content">
+          <h4 class="title is-5" align="left">🌟 Highlights</h4>
+          <table align="center" border="0" cellspacing="0" cellpadding="20" class="has-text-justified"
+            style="margin-top:-30px;">
+            <tbody>
+              <tr>
+                <td>
+                  <div>
+                    <ul>
+                      <li> YOLO-World is the <b>next-generation of YOLO detectors</b>, aiming for real-time open-vocabulary object
+                        detection.</li>
+                      <li> YOLO-World is pre-trained on large-scale vision-language datasets, including Objects365, GQA,
+                        Flickr30K, and CC3M, which <b>enpowers YOLO-World with strong zero-shot open-vocabulary capbility
+                          and grounding ability</b> in images. </li>
+                      <li> YOLO-World achieves <b>fast inference speeds</b> and we present re-parameterization
+                        techniques for faster inference and deployment given users' vocabularies.</li>
+                    </ul>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <h4 class="title is-5" align="left">⚙️ <b><span>Framework</span></b></h4>
+
+          <table align="center" border="0" cellspacing="0" cellpadding="20" class="has-text-justified"
+            style="margin-top:-30px;">
+            <tbody>
+              <tr>
+                <td>
+                  <div>
+                    <ul>
+                      <li>
+                        The YOLO-World builds the YOLO detector with the <b>frozen CLIP-based text encoder</b> for
+                        extracting text embeddings from the input texts, e.g., object categories or noun phrases.
+                      </li>
+                      <li>
+                        The YOLO-World contains an <b>Re-parameterizable Vision-Language Path Aggregation Network
+                          (RepVL-PAN)</b> to facilitate the interaction between multi-scale image features and text
+                        embeddings.
+                        The RepVL-PAN can re-parameterize the user's offline vocabularies into the model parameters for
+                        fast inference and deployment.
+                      </li>
+                      <li>
+                        The YOLO-World is pre-trained on <b>large-scale region-text datasets</b> with the <b>region-text
+                          contrastive loss</b> to learn the region-level alignment between vision and language.
+                        For normal image-text datasets, e.g., CC3M, we adopt an automatic labeling approach to generate
+                        pseudo region-text pairs.
+                      </li>
+                    </ul>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div style="text-align: center;">
+            <img id="teaser" width="80%" src="images/yolo_arch.png">
+          </div><br>
+          <div style="text-align: left;">
+            Please check more details in our <a href="">technical report</a>.
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+    <!-- </div> -->
+    <!--/ Results. -->
+  </section>
+
+
+
+  <section class="section" id="Performance">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-six-fifths">
+        <h2 class="title is-3">📊 Performance</h2>
+      </div>
+    </div>
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-full-width">
+          <h4 class="title is-5">
+            <font color="#008AD7">1. Zero-Shot Evaluation on LVIS</font>
+          </h4>
           <p>
-          Representing neural fields as a composition of manipulable and interpretable components lets you do things like reason about frequencies and scale.
+            We compare the zero-shot performance on LVIS (minival) of recent open-vocabulary detectors:
+            <style>
+              table.GeneratedTable {
+                width: 100%;
+                background-color: #ffffff;
+                border-collapse: collapse;
+                border-width: 2px;
+                border-color: #c1c4c5;
+                border-style: solid;
+                color: #000000;
+              }
+              
+              table.GeneratedTable td, table.GeneratedTable th {
+                border-width: 2px;
+                border-color: #9b9d9e;
+                border-style: solid;
+                padding: 3px;
+              }
+              
+              table.GeneratedTable thead {
+                background-color: #49AAA7;
+              }
+            </style>
+            <div class="column is-six-fifths" width="80%" align="center">
+            <table class="GeneratedTable">
+              <thead>
+                <tr>
+                  <th>Method</th>
+                  <th>Backbone</th>
+                  <th>Pre-trained Data</th>
+                  <th>FPS(V100)</th>
+                  <th>AP</th>
+                  <th>AP<sub>r</sub></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>GLIP-T</td>
+                  <td>Swin-T</td>
+                  <td>O365,GoldG</td>
+                  <td>0.12</td>
+                  <td>24.9</td>
+                  <td>17.7</td>
+                </tr>
+                <tr>
+                  <td>GLIP-T</td>
+                  <td>Swin-T</td>
+                  <td>O365,GoldG,Cap4M</td>
+                  <td>0.12</td>
+                  <td>26.0</td>
+                  <td>20.8</td>
+                </tr>
+                <tr>
+                  <td>GLIPv2-T</td>
+                  <td>Swin-T</td>
+                  <td>O365,GoldG</td>
+                  <td>0.12</td>
+                  <td>26.9</td>
+                  <td>-</td>
+                </tr>
+                <tr>
+                  <td>GLIPv2-T</td>
+                  <td>Swin-T</td>
+                  <td>O365,GoldG,Cap4M</td>
+                  <td>0.12</td>
+                  <td>29.0</td>
+                  <td>-</td>
+                </tr>
+                <tr>
+                  <td>GroundingDINO-T</td>
+                  <td>Swin-T</td>
+                  <td>O365,GoldG</td>
+                  <td>1.5</td>
+                  <td>25.6</td>
+                  <td>14.4</td>
+                </tr>
+                <tr>
+                  <td>GroundingDINO-T</td>
+                  <td>Swin-T</td>
+                  <td>O365,GoldG,Cap4M</td>
+                  <td>1.5</td>
+                  <td>27.4</td>
+                  <td>18.1</td>
+                </tr>
+                <tr>
+                  <td>DetCLIP-T</td>
+                  <td>Swin-T</td>
+                  <td>O365,GoldG</td>
+                  <td>2.3</td>
+                  <td>34.4</td>
+                  <td>26.9</td>
+                </tr>
+                <tr bgcolor="#87C669">
+                  <td>YOLO-World-S</td>
+                  <td>YOLOv8-S</td>
+                  <td>O365,GoldG</td>
+                  <td>74.1</td>
+                  <td>26.2</td>
+                  <td>19.1</td>
+                </tr>
+                <tr bgcolor="#87C669">
+                  <td>YOLO-World-M</td>
+                  <td>YOLOv8-M</td>
+                  <td>O365,GoldG</td>
+                  <td>58.1</td>
+                  <td>31.0</td>
+                  <td>23.8</td>
+                </tr>
+
+                <tr bgcolor="#87C669">
+                  <td>YOLO-World-L</td>
+                  <td>YOLOv8-L</td>
+                  <td>O365,GoldG</td>
+                  <td>52.0</td>
+                  <td>35.0</td>
+                  <td>27.1</td>
+                </tr>
+                <tr bgcolor="#87C669">
+                  <td>YOLO-World-L</td>
+                  <td>YOLOv8-L</td>
+                  <td>O365,GoldG,CC-250K</td>
+                  <td>52.0</td>
+                  <td>35.4</td>
+                  <td>27.6</td>
+                </tr>
+              </tbody>
+            </table>
+            Zero-shot Evaluation on LVIS minival
+          </div>
+            
           </p>
-          </td>
-          </tr> 
+          <h4 class="title is-5">
+            <font color="#008AD7">2. Speed and Accuracy Curve</font>
+          </h4>
+          <p>
+            We compare the speed and accuracy curve of pre-trained YOLO-World vesus recent open-vocabulary detectors on zero-shot LVIS evaluation:
+            <div align="center"><img src="./images/speed_acc.png" width="50%"></div>
+          </p>
+          <h4 class="title is-5">
+            <font color="#008AD7">3. Visualizations</font>
+          </h4>
+          <p>
+            We provide some visualization results generated by the pre-trained YOLO-World(L):
+            <div align="center"><img src="./images/vis_lvis.png" width="80%"><br><span>(a) Visualization Results on Zero-shot Inference on LVIS</span></div>
+            <div align="center"><img src="./images/user_vocab.png" width="80%"><br><span>(b) Visualization Results on User’s Vocabulary</span></div>
+            <div align="center"><img src="./images/vis_referring.png" width="80%"><br><span>(c) Visualization Results on Referring Object Detection</span></div>
+
+          </p>
+          
+        </div>
+      </div>
+    </div>
+  </section>
 
 
-          <tr onmouseout="malle_stop()" onmouseover="malle_start()">
-            <td style="padding:20px;width:25%;vertical-align:middle">
-              <div class="one">
-                <div class="two" id='malle_image'>
-                  <img src='images/MalleConv_after.jpg' width="160"></div>
-                <img src='images/MalleConv_before.jpg' width="160">
-              </div>
-              <script type="text/javascript">
-                function malle_start() {
-                  document.getElementById('malle_image').style.opacity = "1";
-                }
 
-                function malle_stop() {
-                  document.getElementById('malle_image').style.opacity = "0";
-                }
-                malle_stop()
-              </script>
-            </td>
-            <td style="padding:20px;width:75%;vertical-align:middle">
-              <a href="https://yifanjiang.net/MalleConv.html">
-                <papertitle>Fast and High-quality Image Denoising via Malleable Convolutions</papertitle>
-              </a>
-              <br>
-              <a href="https://yifanjiang.net/">Yifan Jiang</a>,
-              <a href="https://bartwronski.com/">Bartlomiej Wronski</a>, 
-							<a href="https://bmild.github.io/">Ben Mildenhall</a>, <br>
-              <strong>Jonathan T. Barron</strong>,
-              <a href="https://spark.adobe.com/page/CAdrFMJ9QeI2y/">Zhangyang Wang</a>,
-              <a href="https://people.csail.mit.edu/tfxue/">Tianfan Xue</a>
-              <br>
-              <em>ECCV</em>, 2022
-              <br>
-              <a href="https://yifanjiang.net/MalleConv.html">project page</a>
-              /
-              <a href="https://arxiv.org/abs/2201.00392">arXiv</a>
-              <p></p>
-              <p>
-              We denoise images efficiently by predicting spatially-varying kernels at low resolution and using a fast fused op to jointly upsample and apply these kernels at full resolution.
-              </p>
-            </td>
-          </tr>
-					
-          <tr onmouseout="nerfsuper_stop()" onmouseover="nerfsuper_start()">
-            <td style="padding:20px;width:25%;vertical-align:middle">
-              <div class="one">
-                <div class="two" id='nerfsuper_image'><video  width=100% height=100% muted autoplay loop>
-                <source src="images/nerf_supervision.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-                </video></div>
-                <img src='images/nerf_supervision.jpg' width="160">
-              </div>
-              <script type="text/javascript">
-                function nerfsuper_start() {
-                  document.getElementById('nerfsuper_image').style.opacity = "1";
-                }
+  <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <h2 class="title">BibTeX</h2>
+      <b>If you find YOLO-World is useful in your research or applications, please consider giving us a citation.</b>
+      <br> <br>
 
-                function nerfsuper_stop() {
-                  document.getElementById('nerfsuper_image').style.opacity = "0";
-                }
-                nerfsuper_stop()
-              </script>
-            </td>
-            <td style="padding:20px;width:75%;vertical-align:middle">
-							<a href="http://yenchenlin.me/nerf-supervision/">
-                <papertitle>NeRF-Supervision: Learning Dense Object Descriptors from Neural Radiance Fields</papertitle>
-              </a>
-              <br>
-              <a href="https://yenchenlin.me/">Lin Yen-Chen</a>, 
-              <a href="http://www.peteflorence.com/">Pete Florence</a>, 
-              <strong>Jonathan T. Barron</strong>,  <br>
-              <a href="https://scholar.google.com/citations?user=_BPdgV0AAAAJ&hl=en">Tsung-Yi Lin</a>, 
-              <a href="https://meche.mit.edu/people/faculty/ALBERTOR@MIT.EDU">Alberto Rodriguez</a>,
-              <a href="http://web.mit.edu/phillipi/">Phillip Isola</a>
-              <br>
-              <em>ICRA</em>, 2022  
-              <br>
-							<a href="http://yenchenlin.me/nerf-supervision/">project page</a> / 
-							<a href="https://arxiv.org/abs/2203.01913">arXiv</a> / 
-							<a href="https://www.youtube.com/watch?v=_zN-wVwPH1s">video</a> /
-							<a href="https://github.com/yenchenlin/nerf-supervision-public">code</a> / 
-							<a href="https://colab.research.google.com/drive/13ISri5KD2XeEtsFs25hmZtKhxoDywB5y?usp=sharing">colab</a>				
-              <p></p>
-              <p>NeRF works better than RGB-D cameras or multi-view stereo when learning object descriptors.</p>
-            </td>
-          </tr>
+      <pre><code>
+        @article{cheng2024yolow,
+          title={YOLO-World: Real-Time Open-Vocabulary Object Detection},
+          author={Cheng, Tianheng and Song, Lin and Ge, Yixiao and Liu, Wenyu and Wang, Xinggang and Shan, Ying},
+          journal={arXiv preprint arXiv:},
+          year={2024}
+        }
+  </code></pre>
+    </div>
+  </section>
 
-			    <tr onmouseout="refnerf_stop()" onmouseover="refnerf_start()"  bgcolor="#ffffd0">
-			      <td style="padding:20px;width:25%;vertical-align:middle">
-			        <div class="one">
-			          <div class="two" id='refnerf_image'><video  width=100% height=100% muted autoplay loop>
-			          <source src="images/refnerf.mp4" type="video/mp4">
-			          Your browser does not support the video tag.
-			          </video></div>
-			          <img src='images/refnerf.jpg' width="160">
-			        </div>
-			        <script type="text/javascript">
-			          function refnerf_start() {
-			            document.getElementById('refnerf_image').style.opacity = "1";
-			          }
+  <section class="section" id="Acknowledgement">
+    <div class="container is-max-desktop content">
+      <h2 class="title">Acknowledgement</h2>
+      <p>
+        This website is adapted from <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>, <a
+          href="https://llava-vl.github.io/">LLaVA</a>, and <a href="https://sharegpt4v.github.io/">ShareGPT4V</a>, licensed under a <a rel="license"
+          href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+          Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+    </div>
+  </section>
 
-			          function refnerf_stop() {
-			            document.getElementById('refnerf_image').style.opacity = "0";
-			          }
-			          refnerf_stop()
-			        </script>
-			      </td>
-			            <td style="padding:20px;width:75%;vertical-align:middle">
-			          <a href="https://dorverbin.github.io/refnerf/index.html">
-			            <papertitle>Ref-NeRF: Structured View-Dependent Appearance for Neural Radiance Fields</papertitle>
-			          </a>
-			          <br>
-			          <a href="https://scholar.harvard.edu/dorverbin/home">Dor Verbin</a>,
-			          <a href="https://phogzone.com/">Peter Hedman</a>,
-			          <a href="https://bmild.github.io/">Ben Mildenhall</a>, <br>
-			          <a href="Todd Zickler">Todd Zickler</a>,
-			          <strong>Jonathan T. Barron</strong>,
-			          <a href="https://pratulsrinivasan.github.io/">Pratul Srinivasan</a>
-			          <br>
-			    <em>CVPR</em>, 2022 &nbsp <font color="red"><strong>(Oral Presentation, Best Student Paper Honorable Mention)</strong></font>
-			          <br>
-			          <a href="https://dorverbin.github.io/refnerf/index.html">project page</a>
-			    /
-			          <a href="https://arxiv.org/abs/2112.03907">arXiv</a>
-			    /
-			          <a href="https://youtu.be/qrdRH9irAlk">video</a>
-			          <p></p>
-			          <p>Explicitly modeling reflections in NeRF produces realistic shiny surfaces and accurate surface normals, and lets you edit materials.</p>
-			        </td>
-			      </tr>
-						
-          <tr onmouseout="mip360_stop()" onmouseover="mip360_start()"  bgcolor="#ffffd0">
-            <td style="padding:20px;width:25%;vertical-align:middle">
-              <div class="one">
-                <div class="two" id='mip360_image'><video  width=100% height=100% muted autoplay loop>
-                <source src="images/mip360_sat.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-                </video></div>
-                <img src='images/mip360_sat.jpg' width="160">
-              </div>
-              <script type="text/javascript">
-                function mip360_start() {
-                  document.getElementById('mip360_image').style.opacity = "1";
-                }
-
-                function mip360_stop() {
-                  document.getElementById('mip360_image').style.opacity = "0";
-                }
-                mip360_stop()
-              </script>
-            </td>
-            <td style="padding:20px;width:75%;vertical-align:middle">
-              <a href="http://jonbarron.info/mipnerf360">
-                <papertitle>Mip-NeRF 360: Unbounded Anti-Aliased Neural Radiance Fields</papertitle>
-              </a>
-              <br>
-              <strong>Jonathan T. Barron</strong>,
-              <a href="https://bmild.github.io/">Ben Mildenhall</a>,
-              <a href="https://scholar.harvard.edu/dorverbin/home">Dor Verbin</a>,
-              <a href="https://pratulsrinivasan.github.io/">Pratul Srinivasan</a>,
-              <a href="https://phogzone.com/">Peter Hedman</a>
-              <br>
-							<em>CVPR</em>, 2022 &nbsp <font color="red"><strong>(Oral Presentation)</strong></font>
-              <br>
-              <a href="http://jonbarron.info/mipnerf360">project page</a>
-              /
-              <a href="https://arxiv.org/abs/2111.12077">arXiv</a>
-              /
-              <a href="https://youtu.be/zBSH-k9GbV4">video</a>
-              <p></p>
-              <p>mip-NeRF can be extended to produce realistic results on unbounded scenes.</p>
-            </td>
-          </tr> 
-
-          <tr onmouseout="rawnerf_stop()" onmouseover="rawnerf_start()"  bgcolor="#ffffd0">
-            <td style="padding:20px;width:25%;vertical-align:middle">
-              <div class="one">
-                <div class="two" id='rawnerf_image'><video  width=100% height=100% muted autoplay loop>
-                <source src="images/rawnerf.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-                </video></div>
-                <img src='images/rawnerf.jpg' width="160">
-              </div>
-              <script type="text/javascript">
-                function rawnerf_start() {
-                  document.getElementById('rawnerf_image').style.opacity = "1";
-                }
-
-                function rawnerf_stop() {
-                  document.getElementById('rawnerf_image').style.opacity = "0";
-                }
-                rawnerf_stop()
-              </script>
-            </td>
-            <td style="padding:20px;width:75%;vertical-align:middle">
-              <a href="https://bmild.github.io/rawnerf/index.html">
-                <papertitle>NeRF in the Dark: High Dynamic Range View Synthesis from Noisy Raw Images</papertitle>
-              </a>
-              <br>
-              <a href="https://bmild.github.io/">Ben Mildenhall</a>,
-              <a href="https://phogzone.com/">Peter Hedman</a>,
-              <a href="http://www.ricardomartinbrualla.com/">Ricardo Martin-Brualla</a>, <br>
-              <a href="https://pratulsrinivasan.github.io/">Pratul Srinivasan</a>,
-              <strong>Jonathan T. Barron</strong>
-              <br>
-							<em>CVPR</em>, 2022 &nbsp <font color="red"><strong>(Oral Presentation)</strong></font>
-              <br>
-              <a href="https://bmild.github.io/rawnerf/index.html">project page</a>
-        /
-              <a href="https://arxiv.org/abs/2111.13679">arXiv</a>
-        /
-              <a href="https://www.youtube.com/watch?v=JtBS4KBcKVc">video</a>
-              <p></p>
-              <p>
-								Properly training NeRF on raw camera data enables HDR view synthesis and bokeh, and outperforms multi-image denoising.</p>
-            </td>
-          </tr> 
-					
-
-        </tbody></table>
-
-				
-        <table width="100%" align="center" border="0" cellspacing="0" cellpadding="20"><tbody>
-          <tr>
-            <td>
-              <heading>Misc</heading>
-            </td>
-          </tr>
-        </tbody></table>
-        <table width="100%" align="center" border="0" cellpadding="20"><tbody>
-					
-          <tr>
-            <td style="padding:20px;width:25%;vertical-align:middle"><img src="images/cvf.jpg"></td>
-            <td width="75%" valign="center">
-              <a href="https://cvpr2022.thecvf.com/area-chairs">Area Chair, CVPR 2022</a>
-              <br>
-              <a href="http://cvpr2021.thecvf.com/area-chairs">Area Chair & Longuet-Higgins Award Committee Member, CVPR 2021</a>
-              <br>
-              <a href="http://cvpr2019.thecvf.com/area_chairs">Area Chair, CVPR 2019</a>
-              <br>
-              <a href="http://cvpr2018.thecvf.com/organizers/area_chairs">Area Chair, CVPR 2018</a>
-            </td>
-          </tr>
-          <tr>
-            <td style="padding:20px;width:25%;vertical-align:middle">
-              <img src="images/cs188.jpg" alt="cs188">
-            </td>
-            <td width="75%" valign="center">
-              <a href="http://inst.eecs.berkeley.edu/~cs188/sp11/announcements.html">Graduate Student Instructor, CS188 Spring 2011</a>
-              <br>
-              <a href="http://inst.eecs.berkeley.edu/~cs188/fa10/announcements.html">Graduate Student Instructor, CS188 Fall 2010</a>
-              <br>
-              <a href="http://aima.cs.berkeley.edu/">Figures, "Artificial Intelligence: A Modern Approach", 3rd Edition</a>
-            </td>
-          </tr>
-					
-
-          <tr>
-            <td align="center" style="padding:20px;width:25%;vertical-align:middle">
-							<heading>Basically <br> Blog Posts</heading>
-            </td>
-            <td width="75%" valign="middle">
-              <a href="https://arxiv.org/abs/2112.11687">Squareplus: A Softplus-Like Algebraic Rectifier</a>
-              <br>
-              <a href="https://arxiv.org/abs/2010.09714">A Convenient Generalization of Schlick's Bias and Gain Functions</a>
-              <br>
-              <a href="https://arxiv.org/abs/1704.07483">Continuously Differentiable Exponential Linear Units</a>
-            </td>
-          </tr>
-					
-					
-        </tbody></table>
-        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
-          <tr>
-            <td style="padding:0px">
-              <br>
-              <p style="text-align:right;font-size:small;">
-                Last updated on March 09, 2022. Thanks to <a href="https://github.com/jonbarron/jonbarron_website">source code</a>. <strong>Do not</strong> scrape the HTML from this page itself, as it includes analytics tags that you do not want on your own website &mdash; use the github code instead. Also, consider using <a href="https://leonidk.com/">Leonid Keselman</a>'s <a href="https://github.com/leonidk/new_website">Jon Barron for this awesome website template. <a href="https://github.com/jonbarron/jonbarron_website">source code</a>. <strong>Do not</strong> scrape the HTML from this page itself, as it includes analytics tags that you do not want on your own website &mdash; use the github code instead. Also, consider using <a href="https://leonidk.com/">Leonid Keselman</a>'s <a href="https://github.com/leonidk/new_website">Jekyll fork</a> of this page.
-              </p>
-            </td>
-          </tr>
-        </tbody></table>
-      </td>
-    </tr>
-  </table>
 </body>
 
 </html>
